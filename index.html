@@ -4,13 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <section>
         <ul id="listaCategorias"></ul>
     </section>
+    <button id="botonCarrito">Carrito</button>
     <section>
         <ul id="productosCategoria"></ul>
+    </section>
+    <section id="modalDetalleProducto">
+        <div id="contenedorModalDetalleProducto">
+            <span id="cerrarModal">X</span>
+            <h1 id="tituloProducto"></h1>
+            <h3 id="descripcionProducto"></h3>
+            <h4 id="categoriaProducto"></h4>
+            <img id="imgProducto">
+            <h2 id="precioProducto"></h2>
+            <button id="agregarAlCarrito">Agregar al carrito</button>
+        </div>
+    </section>
+    <section id="modalCarrito">
+        <div id="listaModalCarrito">
+            
+            <button id="confirmarCompra">Confirmar Compra</button>
+            <button id="cancelarCompra">Cancelar</button>
+        </div>
     </section>
     <script src="main.js"></script>
 </body>
