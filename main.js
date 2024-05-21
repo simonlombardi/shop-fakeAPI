@@ -107,8 +107,12 @@ const renderizarModalDetalleProducto = (detalleProducto) => {
     precioProductoModal.textContent = `$${detalleProducto.price}`
 
     botonCarrito.addEventListener("click" , () => {
-        productosCarrito.push(detalleProducto)
-        alert(`${detalleProducto.title} agregado al carrito!`)
+        let productoParaAgregar = {
+            ...detalleProducto,
+            cantidad: 1
+        }
+        productosCarrito.push(productoParaAgregar)
+        alert(`${productoParaAgregar.title} agregado al carrito!`)
         modal.style.display = 'none'
         contenedorModal.style.position = "inherit"
         contenedorModal.style.height = "auto"
@@ -125,50 +129,53 @@ const renderizarModalDetalleProducto = (detalleProducto) => {
 }
 
 const renderizarModalCarrito = () => {
-    console.log(productosCarrito);
     const modal = document.getElementById("modalCarrito")
-    const contenedorModalCarrito = document.getElementById("listaModalCarrito")
+    const listaModalCarrito = document.getElementById("listaModalCarrito")
     const cancelar = document.getElementById("cancelarCompra")
-
     cancelar.addEventListener("click", () => {
         modal.style.display = 'none'
-        contenedorModalCarrito.style.position = "inherit"
-        contenedorModalCarrito.style.height = "auto"
-        contenedorModalCarrito.style.overflow = "visible"
+        listaModalCarrito.style.position = "inherit"
+        listaModalCarrito.style.height = "auto"
+        listaModalCarrito.style.overflow = "visible"
     })
+    while(listaModalCarrito.firstChild){
+        listaModalCarrito.removeChild(listaModalCarrito.firstChild)
+    }
+    console.log(productosCarrito);
+    
 
     modal.style.display = 'block'
-    contenedorModalCarrito.style.position = "static"
-    contenedorModalCarrito.style.height = "100%"
-    contenedorModalCarrito.style.overflow = "hidden"
+    listaModalCarrito.style.position = "static"
+    listaModalCarrito.style.height = "100%"
+    listaModalCarrito.style.overflow = "hidden"
 
     productosCarrito.forEach(producto => {
-        let cantidadProducto = 1
         const listaProductosCarrito = document.getElementById("listaModalCarrito")
         const elementoProducto = document.createElement("ul")
         const imagenProducto = document.createElement("img")
         const tituloProducto = document.createElement("span")
         const precioProductoCarrito = document.createElement("span")
+        const productoCantidad = document.createElement("span")
+        productoCantidad.textContent = producto.cantidad
         const botonEliminar = document.createElement("button")
         const botonAgregar = document.createElement("button")
-        const cantidad = document.createElement("span")
-        let precioProducto = (cantidadProducto * (parseInt(producto.price)))
+        let precioProducto = (producto.cantidad * (parseInt(producto.price)))
         botonAgregar.addEventListener("click", () => {
-            cantidadProducto += 1
-            cantidad.textContent = cantidadProducto
-            precioProducto = (cantidadProducto * (parseInt(producto.price)))
+            producto.cantidad += 1
+            productoCantidad.textContent = producto.cantidad
+            precioProducto = (producto.cantidad * (parseInt(producto.price)))
             precioProductoCarrito.textContent = `$${precioProducto}`
             
         })
         botonEliminar.addEventListener("click", () => {
-            elementoProducto.removeChild(precioProductoCarrito)
-            cantidadProducto -= 1
-            cantidad.textContent = cantidadProducto
-            precioProducto = (cantidadProducto * (parseInt(producto.price)))
+            producto.cantidad -= 1
+            productoCantidad.textContent = producto.cantidad
+            precioProducto = (producto.cantidad * (parseInt(producto.price)))
             precioProductoCarrito.textContent = `$${precioProducto}`
-            elementoProducto.appendChild(precioProductoCarrito)
-            if(cantidadProducto < 1){
-                productosCarrito = productosCarrito.filter(productoCarrito => productoCarrito.id == producto.id)
+            if (producto.cantidad < 1){
+                let indiceProducto = productosCarrito.indexOf(producto)
+                productosCarrito.splice(indiceProducto, 1)
+                
                 renderizarModalCarrito()
             }
         })
@@ -179,19 +186,15 @@ const renderizarModalCarrito = () => {
         tituloProducto.textContent = producto.title
         precioProductoCarrito.textContent = `$${precioProducto}`
         botonAgregar.textContent = "+"
-        cantidad.textContent = cantidadProducto
+        productoCantidad.textContent = producto.cantidad
         botonEliminar.textContent = "-"
         elementoProducto.appendChild(imagenProducto)
         elementoProducto.appendChild(tituloProducto)
         elementoProducto.appendChild(botonEliminar)
-        elementoProducto.appendChild(cantidad)
+        elementoProducto.appendChild(productoCantidad)
         elementoProducto.appendChild(botonAgregar)
         elementoProducto.appendChild(precioProductoCarrito)
         listaProductosCarrito.appendChild(elementoProducto)
-        console.log(cantidadProducto);
-
-
-
 
     })
 }

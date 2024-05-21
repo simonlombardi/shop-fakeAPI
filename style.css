@@ -2,7 +2,6 @@
     display: none;
     position: fixed;
     z-index: 1;
-    padding-top: 100px;
     left: 0;
     top: 0;
     width: 100%;
@@ -16,6 +15,8 @@
     padding: 25px;
     border: 1px solid #6927a7;
     width: 60%;
+    overflow: auto;
+
 }
 
 #modalDetalleProducto #cerrarModal{
