@@ -37,6 +37,7 @@ const obtenerDetalleProducto = async (producto) => {
 
 const mostrarCategorias = async () => {
     let categorias = await obtenerCategorias()
+    const selectNavBar = document.getElementById("selectNavBar")
     const listaCategoria = document.getElementById("listaCategorias")
     categorias.forEach(categoria => {
         const elementoCategoria = document.createElement("li")
@@ -47,7 +48,8 @@ const mostrarCategorias = async () => {
         })
         elementoCategoria.appendChild(enlace)
         elementoCategoria.style.cursor = "pointer"
-        listaCategoria.appendChild(elementoCategoria)
+        elementoCategoria.classList.add("dropdown-item")
+        selectNavBar.appendChild(elementoCategoria)
     });
 }
 
