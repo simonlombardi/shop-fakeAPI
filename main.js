@@ -5,6 +5,16 @@ botonCarrito.addEventListener("click", () => {
     renderizarModalCarrito()
 })
 
+const obtenerTodosProductos = async () => {
+    try {
+        let respuesta = await fetch('https://fakestoreapi.com/products')
+        let json = respuesta.json()
+        return json
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 const obtenerCategorias = async () => {
     try {
         let respuesta = await fetch('https://fakestoreapi.com/products/categories')
@@ -35,10 +45,45 @@ const obtenerDetalleProducto = async (producto) => {
     }
 }
 
+const mostrarTodosProductos = async () => {
+    let todosProductos = await obtenerTodosProductos()
+    const contenedorTodosProductos = document.getElementById('contenedorIndex')
+    
+    console.log(todosProductos);
+    todosProductos.forEach(producto => {
+        const contenedorProducto = document.createElement('div')
+        contenedorProducto.classList.add('card')
+        const imagenProducto = document.createElement('img')
+        imagenProducto.src = producto.image
+        imagenProducto.width = 100
+        imagenProducto.height = 100
+        const contenedorDetalleProducto = document.createElement('div')
+        contenedorDetalleProducto.classList.add('card-body')
+        const tituloProducto = document.createElement('h5')
+        tituloProducto.textContent = producto.title
+        tituloProducto.classList.add('card-title')
+        const precioProducto = document.createElement('h5')
+        precioProducto.textContent = `$${producto.price}`
+        precioProducto.classList.add('card-title')
+        const descripcionProducto = document.createElement('p')
+        descripcionProducto.textContent = producto.description
+        descripcionProducto.classList.add('card-text')
+        contenedorDetalleProducto.appendChild(tituloProducto)
+        contenedorDetalleProducto.appendChild(descripcionProducto)
+        contenedorDetalleProducto.appendChild(precioProducto)
+        contenedorProducto.appendChild(imagenProducto)
+        contenedorProducto.appendChild(contenedorDetalleProducto)
+        contenedorTodosProductos.appendChild(contenedorProducto)
+
+
+
+    })
+    
+}
+
 const mostrarCategorias = async () => {
     let categorias = await obtenerCategorias()
     const selectNavBar = document.getElementById("selectNavBar")
-    const listaCategoria = document.getElementById("listaCategorias")
     categorias.forEach(categoria => {
         const elementoCategoria = document.createElement("li")
         const enlace = document.createElement("a")
@@ -60,10 +105,15 @@ const mostrarProductosCategoria = async (categoria) => {
         listaProductosCategoria.removeChild(listaProductosCategoria.firstChild)
     }
     productosCategoria.forEach(producto => {
-        const elementoProducto = document.createElement("li")
+        const contenedorElementoProducto = document.createElement('div')
+        contenedorElementoProducto.classList.add('card')
+        const elementoProducto = document.createElement("div")
+        elementoProducto.classList.add('card-body')
         const elementoTitulo = document.createElement("h3")
         const elementoPrecio = document.createElement("h4")
         const elementoImagen = document.createElement("img")
+        elementoImagen.style.width = '18rem'
+        elementoImagen.classList.add('card-img-top')
         elementoImagen.width = 100
         elementoImagen.height = 100
         elementoTitulo.textContent = producto.title
@@ -76,7 +126,8 @@ const mostrarProductosCategoria = async (categoria) => {
             mostrarDetalleProducto(producto)
         })
         elementoTitulo.style.cursor = "pointer"
-        listaProductosCategoria.appendChild(elementoProducto)
+        contenedorElementoProducto.appendChild(elementoProducto)
+        listaProductosCategoria.appendChild(contenedorElementoProducto)
     })
 }
 
@@ -200,5 +251,5 @@ const renderizarModalCarrito = () => {
 
     })
 }
-
+mostrarTodosProductos()
 mostrarCategorias()
