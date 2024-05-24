@@ -99,6 +99,10 @@ const mostrarCategorias = async () => {
 }
 
 const mostrarProductosCategoria = async (categoria) => {
+    const contenedorIndex = document.getElementById('contenedorIndex')
+    while (contenedorIndex.firstChild){
+        contenedorIndex.removeChild(contenedorIndex.firstChild)
+    }
     let productosCategoria = await obtenerProductosCategoria(categoria)
     const listaProductosCategoria = document.getElementById("productosCategoria")
     while (listaProductosCategoria.firstChild){
@@ -122,11 +126,17 @@ const mostrarProductosCategoria = async (categoria) => {
         elementoProducto.appendChild(elementoTitulo)
         elementoProducto.appendChild(elementoPrecio)
         elementoProducto.appendChild(elementoImagen)
-        elementoTitulo.addEventListener("click", () => {
+        const botonSaberMas = document.createElement('button')
+        const contenedorBotonSaberMas = document.createElement("div")
+        contenedorBotonSaberMas.classList.add('contenedorBotonSaberMas')
+        botonSaberMas.textContent = "Saber mas"
+        botonSaberMas.classList.add("btnSaberMas")
+        contenedorBotonSaberMas.appendChild(botonSaberMas)
+        botonSaberMas.addEventListener("click", () => {
             mostrarDetalleProducto(producto)
         })
-        elementoTitulo.style.cursor = "pointer"
         contenedorElementoProducto.appendChild(elementoProducto)
+        contenedorElementoProducto.appendChild(contenedorBotonSaberMas)
         listaProductosCategoria.appendChild(contenedorElementoProducto)
     })
 }

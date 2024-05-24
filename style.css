@@ -10,10 +10,9 @@
 }
 
 #modalDetalleProducto #contenedorModalDetalleProducto{
-    background-color: #88968d;
+    background-color: whitesmoke;
     margin: auto;
     padding: 25px;
-    border: 1px solid #6927a7;
     width: 60%;
     overflow: auto;
 
@@ -48,7 +47,6 @@
     background-color: #88968d;
     margin: auto;
     padding: 25px;
-    border: 1px solid #6927a7;
     width: auto;
 }
 
@@ -72,9 +70,96 @@
 
 .card{
     flex: 0 0 48%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 #contenedorIndex{
     display: flex;
     flex-wrap: wrap;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.card-body img {
+    height: 80%;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+
+.contenedorBotonSaberMas{
+    display: flex;
+    justify-content: end;
+}
+
+.btnSaberMas, #agregarAlCarrito{
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btnSaberMas:hover, #agregarAlCarrito{
+    background-color: #218838;
+}
+
+.btnSaberMas:active {
+    background-color: #1e7e34;
+    transform: scale(0.95);
+}
+
+.card-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #555;
+}
+
+
+#contenedorModalDetalleProducto{
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#contenedorModalDetalleProducto h1{
+    text-align: center;
+}
+
+#contenedorBtnCerrarModal{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
 }
