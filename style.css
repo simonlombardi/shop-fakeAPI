@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Elymaic&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
 #modalDetalleProducto{
     display: none;
     position: fixed;
@@ -30,7 +40,17 @@
     text-decoration: none;
     cursor: pointer;
 }
-
+#botonCarrito{
+    height: 55px;
+    width: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#botonCarrito img{
+    width: 100%;
+    height: auto;
+}
 #modalCarrito{
     display: none;
     position: fixed;
@@ -66,6 +86,7 @@
 #productosCategoria{
     display: flex;
     flex-wrap: wrap;
+    gap: 5px;
 }
 
 .card{
@@ -75,10 +96,15 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
+.card:hover{
+    transform: scale(1.01);
+    transition-duration: 0.5s;
+}
 
 #contenedorIndex{
     display: flex;
     flex-wrap: wrap;
+    gap: 5px;
 }
 
 .card-body{

@@ -129,7 +129,7 @@ const mostrarProductosCategoria = async (categoria) => {
         const botonSaberMas = document.createElement('button')
         const contenedorBotonSaberMas = document.createElement("div")
         contenedorBotonSaberMas.classList.add('contenedorBotonSaberMas')
-        botonSaberMas.textContent = "Saber mas"
+        botonSaberMas.textContent = "saber mas"
         botonSaberMas.classList.add("btnSaberMas")
         contenedorBotonSaberMas.appendChild(botonSaberMas)
         botonSaberMas.addEventListener("click", () => {
