@@ -41,27 +41,28 @@
     <section>
         <ul id="productosCategoria"></ul>
     </section>
-    <section id="modalDetalleProducto">
-        <div id="contenedorModalDetalleProducto">
-          <div id="contenedorBtnCerrarModal">
-            <span id="cerrarModal">X</span>
+    <section>
+      <div class="modal fade" id="modalDetalle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="tituloModalDetalle"></h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p id="descripcionModalDetalle"></p>
+              <img src="" alt="" id="imgModalDetalle">
+              <h2 id="precioModalDetalle"></h2>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" id="botonAgregarAlCarrito">Agregar al carrito</button>
+            </div>
           </div>
-            
-            <h1 id="tituloProducto"></h1>
-            <h3 id="descripcionProducto"></h3>
-            <h4 id="categoriaProducto"></h4>
-            <img id="imgProducto">
-            <h2 id="precioProducto"></h2>
-            <button id="agregarAlCarrito">Agregar al carrito</button>
         </div>
-    </section>
-    <section id="modalCarrito">
-        <div id="listaModalCarrito">
-            
-        </div>
-        <button id="confirmarCompra">Confirmar Compra</button>
-        <button id="cancelarCompra">Cancelar</button>
-    </section>
+      </div>
+    </section> 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </body>

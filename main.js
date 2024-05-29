@@ -49,7 +49,6 @@ const mostrarTodosProductos = async () => {
     let todosProductos = await obtenerTodosProductos()
     const contenedorTodosProductos = document.getElementById('contenedorIndex')
     
-    console.log(todosProductos);
     todosProductos.forEach(producto => {
         const contenedorProducto = document.createElement('div')
         contenedorProducto.classList.add('card')
@@ -130,6 +129,8 @@ const mostrarProductosCategoria = async (categoria) => {
         const contenedorBotonSaberMas = document.createElement("div")
         contenedorBotonSaberMas.classList.add('contenedorBotonSaberMas')
         botonSaberMas.textContent = "saber mas"
+        botonSaberMas.setAttribute("data-bs-toggle", "modal")
+        botonSaberMas.setAttribute("data-bs-target", "#modalDetalle")
         botonSaberMas.classList.add("btnSaberMas")
         contenedorBotonSaberMas.appendChild(botonSaberMas)
         botonSaberMas.addEventListener("click", () => {
@@ -147,119 +148,20 @@ const mostrarDetalleProducto = async (producto) => {
 }
 
 const renderizarModalDetalleProducto = (detalleProducto) => {
-    const modal = document.getElementById('modalDetalleProducto')
-    const contenedorModal = document.getElementById("contenedorModalDetalleProducto")
-    const botonCerrarModal = document.getElementById("cerrarModal")
-    const tituloProductoModal = document.getElementById("tituloProducto")
-    const descripcionProductoModal = document.getElementById("descripcionProducto")
-    const categoriaProductoModal = document.getElementById("categoriaProducto")
-    const imagenProductoModal = document.getElementById("imgProducto")
-    const precioProductoModal = document.getElementById("precioProducto")
-    const botonCarrito = document.getElementById("agregarAlCarrito")
+    const modalDetalleProducto = document.getElementById('modalDetalle')
+    const tituloModalDetalle = document.getElementById('tituloModalDetalle')
+    tituloModalDetalle.textContent = detalleProducto.title
+    const descripcionModalDetalle = document.getElementById('descripcionModalDetalle')
+    descripcionModalDetalle.textContent = detalleProducto.description
+    const imgModalDetalle = document.getElementById('imgModalDetalle')
+    imgModalDetalle.src = detalleProducto.image
+    const precioModalDetalle = document.getElementById('precioModalDetalle')
+    precioModalDetalle.textContent = `$${detalleProducto.price}`
 
-    modal.style.display = 'block'
-    contenedorModal.style.position = "static"
-    contenedorModal.style.height = "100%"
-    contenedorModal.style.overflow = "hidden"
-    tituloProductoModal.textContent = detalleProducto.title
-    descripcionProductoModal.textContent = detalleProducto.description
-    categoriaProductoModal.textContent = detalleProducto.category
-    imagenProductoModal.src = detalleProducto.image
-    imagenProductoModal.width = 200
-    imagenProductoModal.height = 200
-    precioProductoModal.textContent = `$${detalleProducto.price}`
-
-    botonCarrito.addEventListener("click" , () => {
-        let productoParaAgregar = {
-            ...detalleProducto,
-            cantidad: 1
-        }
-        productosCarrito.push(productoParaAgregar)
-        alert(`${productoParaAgregar.title} agregado al carrito!`)
-        modal.style.display = 'none'
-        contenedorModal.style.position = "inherit"
-        contenedorModal.style.height = "auto"
-        contenedorModal.style.overflow = "visible"
-    })
-
-    botonCerrarModal.addEventListener("click", () => {
-        modal.style.display = 'none'
-        contenedorModal.style.position = "inherit"
-        contenedorModal.style.height = "auto"
-        contenedorModal.style.overflow = "visible"
-    })
-    
 }
 
 const renderizarModalCarrito = () => {
-    const modal = document.getElementById("modalCarrito")
-    const listaModalCarrito = document.getElementById("listaModalCarrito")
-    const cancelar = document.getElementById("cancelarCompra")
-    cancelar.addEventListener("click", () => {
-        modal.style.display = 'none'
-        listaModalCarrito.style.position = "inherit"
-        listaModalCarrito.style.height = "auto"
-        listaModalCarrito.style.overflow = "visible"
-    })
-    while(listaModalCarrito.firstChild){
-        listaModalCarrito.removeChild(listaModalCarrito.firstChild)
-    }
-    console.log(productosCarrito);
-    
 
-    modal.style.display = 'block'
-    listaModalCarrito.style.position = "static"
-    listaModalCarrito.style.height = "100%"
-    listaModalCarrito.style.overflow = "hidden"
-
-    productosCarrito.forEach(producto => {
-        const listaProductosCarrito = document.getElementById("listaModalCarrito")
-        const elementoProducto = document.createElement("ul")
-        const imagenProducto = document.createElement("img")
-        const tituloProducto = document.createElement("span")
-        const precioProductoCarrito = document.createElement("span")
-        const productoCantidad = document.createElement("span")
-        productoCantidad.textContent = producto.cantidad
-        const botonEliminar = document.createElement("button")
-        const botonAgregar = document.createElement("button")
-        let precioProducto = (producto.cantidad * (parseInt(producto.price)))
-        botonAgregar.addEventListener("click", () => {
-            producto.cantidad += 1
-            productoCantidad.textContent = producto.cantidad
-            precioProducto = (producto.cantidad * (parseInt(producto.price)))
-            precioProductoCarrito.textContent = `$${precioProducto}`
-            
-        })
-        botonEliminar.addEventListener("click", () => {
-            producto.cantidad -= 1
-            productoCantidad.textContent = producto.cantidad
-            precioProducto = (producto.cantidad * (parseInt(producto.price)))
-            precioProductoCarrito.textContent = `$${precioProducto}`
-            if (producto.cantidad < 1){
-                let indiceProducto = productosCarrito.indexOf(producto)
-                productosCarrito.splice(indiceProducto, 1)
-                
-                renderizarModalCarrito()
-            }
-        })
-
-        imagenProducto.src = producto.image
-        imagenProducto.width = "75"
-        imagenProducto.height = "75"
-        tituloProducto.textContent = producto.title
-        precioProductoCarrito.textContent = `$${precioProducto}`
-        botonAgregar.textContent = "+"
-        productoCantidad.textContent = producto.cantidad
-        botonEliminar.textContent = "-"
-        elementoProducto.appendChild(imagenProducto)
-        elementoProducto.appendChild(tituloProducto)
-        elementoProducto.appendChild(botonEliminar)
-        elementoProducto.appendChild(productoCantidad)
-        elementoProducto.appendChild(botonAgregar)
-        elementoProducto.appendChild(precioProductoCarrito)
-        listaProductosCarrito.appendChild(elementoProducto)
-
-    })
 }
 mostrarTodosProductos()
 mostrarCategorias()
