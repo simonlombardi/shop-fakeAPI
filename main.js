@@ -1,9 +1,9 @@
 let productosCarrito = []
 const botonCarrito = document.getElementById("botonCarrito")
-
 botonCarrito.addEventListener("click", () => {
-    renderizarModalCarrito()
+    renderizarCarrito()
 })
+
 
 const obtenerTodosProductos = async () => {
     try {
@@ -148,7 +148,7 @@ const mostrarDetalleProducto = async (producto) => {
 }
 
 const renderizarModalDetalleProducto = (detalleProducto) => {
-    const modalDetalleProducto = document.getElementById('modalDetalle')
+    const botonAgregarCarrito = document.getElementById("botonAgregarAlCarrito")
     const tituloModalDetalle = document.getElementById('tituloModalDetalle')
     tituloModalDetalle.textContent = detalleProducto.title
     const descripcionModalDetalle = document.getElementById('descripcionModalDetalle')
@@ -157,11 +157,21 @@ const renderizarModalDetalleProducto = (detalleProducto) => {
     imgModalDetalle.src = detalleProducto.image
     const precioModalDetalle = document.getElementById('precioModalDetalle')
     precioModalDetalle.textContent = `$${detalleProducto.price}`
-
+    botonAgregarCarrito.addEventListener("click", () => {
+        agregarAlCarrito(detalleProducto)
+    })
 }
 
-const renderizarModalCarrito = () => {
-
+const agregarAlCarrito = (producto) => {
+    productosCarrito.push(producto)
+    productosCarrito = productosCarrito.filter((item, index) => {
+        return productosCarrito.indexOf(item) === index;
+    })
 }
+
+const renderizarCarrito = () => {
+    
+}
+
 mostrarTodosProductos()
 mostrarCategorias()
