@@ -75,7 +75,6 @@ const mostrarTodosProductos = async () => {
         contenedorTodosProductos.appendChild(contenedorProducto)
 
 
-
     })
     
 }
@@ -159,6 +158,7 @@ const renderizarModalDetalleProducto = (detalleProducto) => {
     precioModalDetalle.textContent = `$${detalleProducto.price}`
     botonAgregarCarrito.addEventListener("click", () => {
         agregarAlCarrito(detalleProducto)
+        alert(`${detalleProducto.title} agregado al carrito!`)
     })
 }
 
@@ -167,10 +167,49 @@ const agregarAlCarrito = (producto) => {
     productosCarrito = productosCarrito.filter((item, index) => {
         return productosCarrito.indexOf(item) === index;
     })
+    console.log(productosCarrito);
 }
 
 const renderizarCarrito = () => {
-    
+    const contenedorIndex = document.getElementById("contenedorIndex")
+    const productosCategoria = document.getElementById("productosCategoria")
+    const listaCarrito = document.getElementById("listaCarrito")
+    const precioTotal = document.getElementById('precioTotal')
+    let precioAcumulado = 0
+    while (contenedorIndex.firstChild){
+        contenedorIndex.removeChild(contenedorIndex.firstChild)
+    }
+    while (productosCategoria.firstChild){
+        productosCategoria.removeChild(productosCategoria.firstChild)
+    }
+    productosCarrito.forEach(producto => {
+        const contenedorProducto = document.createElement("div")
+        contenedorProducto.classList.add("card")
+        const imagenProducto = document.createElement("img")
+        imagenProducto.classList.add("card-img-top")
+        imagenProducto.src = producto.image
+        const cuerpoProducto = document.createElement("div")
+        cuerpoProducto.classList.add('cord-body')
+        const tituloProducto = document.createElement('h3')
+        tituloProducto.classList.add('card-title')
+        tituloProducto.textContent = producto.title
+        const precioProducto = document.createElement("h5")
+        precioProducto.classList.add('card-text')
+        precioProducto.textContent = `$${producto.price}`
+        const botonEliminar = document.createElement('button')
+        botonEliminar.classList.add('btn')
+        botonEliminar.classList.add('btn-danger')
+        botonEliminar.textContent = 'X'
+        contenedorProducto.appendChild(imagenProducto)
+        contenedorProducto.appendChild(tituloProducto)
+        contenedorProducto.appendChild(precioProducto)
+        contenedorProducto.appendChild(botonEliminar)
+        listaCarrito.appendChild(contenedorProducto)
+
+        precioAcumulado += producto.price
+
+    })
+    precioTotal.textContent = `$${precioAcumulado}`
 }
 
 mostrarTodosProductos()

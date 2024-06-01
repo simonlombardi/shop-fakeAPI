@@ -158,3 +158,23 @@
     background-color: #88b6a3 !important;
 }
 
+#listaCarrito{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+#listaCarrito img {
+    width: 5%;
+}
+
+#listaCarrito .card{
+    transform: none;
+    width: 100%;
+}
+
+#listaCarrito #precioTotal {
+    margin-left: auto;
+}
+
+
