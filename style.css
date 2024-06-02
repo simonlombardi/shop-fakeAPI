@@ -173,8 +173,35 @@
     width: 100%;
 }
 
-#listaCarrito #precioTotal {
+#listaCarrito #precioTotalContenedor {
     margin-left: auto;
 }
 
+#precioTotalContenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  #precioTotalContenedor span {
+    margin: 0 5px;
+  }
 
+  .btnEliminarProducto {
+    align-self: flex-end;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    color: white;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s linear;
+  }

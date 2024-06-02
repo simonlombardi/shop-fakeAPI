@@ -1,5 +1,11 @@
-let productosCarrito = []
+let productosCarrito = JSON.parse(localStorage.getItem('productosCarrito')) || []
 const botonCarrito = document.getElementById("botonCarrito")
+
+
+const guardarCarrito = () => {
+    localStorage.setItem('productosCarrito', JSON.stringify(productosCarrito))
+}
+
 botonCarrito.addEventListener("click", () => {
     renderizarCarrito()
 })
@@ -157,17 +163,20 @@ const renderizarModalDetalleProducto = (detalleProducto) => {
     const precioModalDetalle = document.getElementById('precioModalDetalle')
     precioModalDetalle.textContent = `$${detalleProducto.price}`
     botonAgregarCarrito.addEventListener("click", () => {
-        agregarAlCarrito(detalleProducto)
+        agregarAlCarrito(detalleProducto.id)
         alert(`${detalleProducto.title} agregado al carrito!`)
     })
 }
 
-const agregarAlCarrito = (producto) => {
-    productosCarrito.push(producto)
-    productosCarrito = productosCarrito.filter((item, index) => {
+const agregarAlCarrito = async (id) => {
+    const todosProductos = await obtenerTodosProductos()
+    const productoParaCarrito = todosProductos.find(producto => producto.id == id)
+    productosCarrito.push(productoParaCarrito)
+    /* productosCarrito = productosCarrito.filter((item, index) => {
         return productosCarrito.indexOf(item) === index;
-    })
-    console.log(productosCarrito);
+    }) */
+    guardarCarrito()
+
 }
 
 const renderizarCarrito = () => {
@@ -182,6 +191,7 @@ const renderizarCarrito = () => {
     while (productosCategoria.firstChild){
         productosCategoria.removeChild(productosCategoria.firstChild)
     }
+
     productosCarrito.forEach(producto => {
         const contenedorProducto = document.createElement("div")
         contenedorProducto.classList.add("card")
@@ -199,6 +209,7 @@ const renderizarCarrito = () => {
         const botonEliminar = document.createElement('button')
         botonEliminar.classList.add('btn')
         botonEliminar.classList.add('btn-danger')
+        botonEliminar.classList.add("btnEliminarProducto")
         botonEliminar.textContent = 'X'
         contenedorProducto.appendChild(imagenProducto)
         contenedorProducto.appendChild(tituloProducto)
@@ -208,8 +219,21 @@ const renderizarCarrito = () => {
 
         precioAcumulado += producto.price
 
+        botonEliminar.addEventListener("click", ()=> {
+            eliminarProductoCarrito(producto.id)
+        })
     })
     precioTotal.textContent = `$${precioAcumulado}`
+}
+
+const eliminarProductoCarrito = (id) => {
+    const indice = productosCarrito.findIndex(producto => producto.id == id)
+    if (indice != -1){
+        productosCarrito.splice(indice, 1)
+        guardarCarrito()
+        
+    }
+    renderizarCarrito()
 }
 
 mostrarTodosProductos()
