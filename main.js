@@ -105,11 +105,15 @@ const mostrarCategorias = async () => {
 const mostrarProductosCategoria = async (categoria) => {
     const contenedorIndex = document.getElementById('contenedorIndex')
     const contenedorDetalleProducto = document.getElementById("detalleProducto")
+    const contenedorPrecioTotal = document.getElementById("precioTotalContenedor")
     while (contenedorIndex.firstChild){
         contenedorIndex.removeChild(contenedorIndex.firstChild)
     }
     while (contenedorDetalleProducto.firstChild){
         contenedorDetalleProducto.removeChild(contenedorDetalleProducto.firstChild)
+    }
+    while (contenedorPrecioTotal.firstChild){
+        contenedorPrecioTotal.removeChild(contenedorPrecioTotal.firstChild)
     }
     let productosCategoria = await obtenerProductosCategoria(categoria)
     const listaProductosCategoria = document.getElementById("productosCategoria")
@@ -154,6 +158,7 @@ const mostrarProductosCategoria = async (categoria) => {
 const mostrarDetalleProducto = async (producto) => {
     let detalleProducto = await obtenerDetalleProducto(producto)
     const contenedorIndex = document.getElementById("contenedorIndex")
+    const contenedorPrecioTotal = document.getElementById("precioTotalContenedor")
     const productosCategoria = document.getElementById("productosCategoria")
     while (contenedorIndex.firstChild){
         contenedorIndex.removeChild(contenedorIndex.firstChild)
@@ -161,7 +166,9 @@ const mostrarDetalleProducto = async (producto) => {
     while (productosCategoria.firstChild){
         productosCategoria.removeChild(productosCategoria.firstChild)
     }
-    
+    while (contenedorPrecioTotal.firstChild){
+        contenedorPrecioTotal.removeChild(contenedorPrecioTotal.firstChild)
+    }
     renderizarDetalleProducto(detalleProducto);
 }
 
