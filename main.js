@@ -187,6 +187,7 @@ const renderizarDetalleProducto = (detalleProducto) => {
     const btnAgregarCarrito = document.getElementById("btnAgregarCarrito")
     btnAgregarCarrito.addEventListener("click", () => {
         agregarAlCarrito(detalleProducto.id)
+        alert(`${detalleProducto.title} ha sido agregado al carrito!`)
         mostrarProductosCategoria(detalleProducto.category)
     })
     const btnVolver = document.getElementById('btnVolver')
