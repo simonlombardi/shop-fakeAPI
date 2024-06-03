@@ -205,3 +205,24 @@
     cursor: pointer;
     transition: background-color 0.3s linear;
   }
+
+  #detalleProducto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+#contenedorImg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  #detalleProducto img{
+    width: 100px;
+    height: 100px;
+  }
+
+  #contenedorBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

@@ -104,8 +104,12 @@ const mostrarCategorias = async () => {
 
 const mostrarProductosCategoria = async (categoria) => {
     const contenedorIndex = document.getElementById('contenedorIndex')
+    const contenedorDetalleProducto = document.getElementById("detalleProducto")
     while (contenedorIndex.firstChild){
         contenedorIndex.removeChild(contenedorIndex.firstChild)
+    }
+    while (contenedorDetalleProducto.firstChild){
+        contenedorDetalleProducto.removeChild(contenedorDetalleProducto.firstChild)
     }
     let productosCategoria = await obtenerProductosCategoria(categoria)
     const listaProductosCategoria = document.getElementById("productosCategoria")
@@ -149,32 +153,53 @@ const mostrarProductosCategoria = async (categoria) => {
 
 const mostrarDetalleProducto = async (producto) => {
     let detalleProducto = await obtenerDetalleProducto(producto)
-    renderizarModalDetalleProducto(detalleProducto);
+    const contenedorIndex = document.getElementById("contenedorIndex")
+    const productosCategoria = document.getElementById("productosCategoria")
+    while (contenedorIndex.firstChild){
+        contenedorIndex.removeChild(contenedorIndex.firstChild)
+    }
+    while (productosCategoria.firstChild){
+        productosCategoria.removeChild(productosCategoria.firstChild)
+    }
+    
+    renderizarDetalleProducto(detalleProducto);
 }
 
-const renderizarModalDetalleProducto = (detalleProducto) => {
-    const botonAgregarCarrito = document.getElementById("botonAgregarAlCarrito")
-    const tituloModalDetalle = document.getElementById('tituloModalDetalle')
-    tituloModalDetalle.textContent = detalleProducto.title
-    const descripcionModalDetalle = document.getElementById('descripcionModalDetalle')
-    descripcionModalDetalle.textContent = detalleProducto.description
-    const imgModalDetalle = document.getElementById('imgModalDetalle')
-    imgModalDetalle.src = detalleProducto.image
-    const precioModalDetalle = document.getElementById('precioModalDetalle')
-    precioModalDetalle.textContent = `$${detalleProducto.price}`
-    botonAgregarCarrito.addEventListener("click", () => {
+const renderizarDetalleProducto = (detalleProducto) => {
+    const contenedorDetalleProducto = document.getElementById("detalleProducto")
+    const detalleProductoHTML = `
+    <div class="card" style="width: 18rem;">
+        <div id="contenedorImg">
+        <img src="${detalleProducto.image}" class="card-img-top" alt="${detalleProducto.title}">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">${detalleProducto.title}</h5>
+            <p class="card-text">${detalleProducto.description}</p>
+            <h5 class="card-title">$${detalleProducto.price}</h5>
+            <div id="contenedorBtn">
+                <a href="#" class="btn btn-danger" id="btnVolver">Volver</a>
+                <a href="#" class="btn btn-success" id="btnAgregarCarrito">Agregar al carrito</a>
+            </div>
+        </div>
+    </div>
+  `
+    contenedorDetalleProducto.innerHTML = detalleProductoHTML
+    const btnAgregarCarrito = document.getElementById("btnAgregarCarrito")
+    btnAgregarCarrito.addEventListener("click", () => {
         agregarAlCarrito(detalleProducto.id)
-        alert(`${detalleProducto.title} agregado al carrito!`)
+        mostrarProductosCategoria(detalleProducto.category)
     })
+    const btnVolver = document.getElementById('btnVolver')
+    btnVolver.addEventListener("click", () => {
+        mostrarProductosCategoria(detalleProducto.category)
+    })
+    
 }
 
 const agregarAlCarrito = async (id) => {
     const todosProductos = await obtenerTodosProductos()
     const productoParaCarrito = todosProductos.find(producto => producto.id == id)
     productosCarrito.push(productoParaCarrito)
-    /* productosCarrito = productosCarrito.filter((item, index) => {
-        return productosCarrito.indexOf(item) === index;
-    }) */
     guardarCarrito()
 
 }
@@ -182,7 +207,9 @@ const agregarAlCarrito = async (id) => {
 const renderizarCarrito = () => {
     const contenedorIndex = document.getElementById("contenedorIndex")
     const productosCategoria = document.getElementById("productosCategoria")
+    const contenedorDetalleProducto = document.getElementById("detalleProducto")
     const listaCarrito = document.getElementById("listaCarrito")
+    const contenedorPrecioTotal = document.getElementById("precioTotalContenedor")
     const precioTotal = document.getElementById('precioTotal')
     let precioAcumulado = 0
     while (contenedorIndex.firstChild){
@@ -191,39 +218,43 @@ const renderizarCarrito = () => {
     while (productosCategoria.firstChild){
         productosCategoria.removeChild(productosCategoria.firstChild)
     }
-
+    while (contenedorDetalleProducto.firstChild){
+        contenedorDetalleProducto.removeChild(contenedorDetalleProducto.firstChild)
+    }
+    listaCarrito.innerHTML = ""
     productosCarrito.forEach(producto => {
-        const contenedorProducto = document.createElement("div")
-        contenedorProducto.classList.add("card")
-        const imagenProducto = document.createElement("img")
-        imagenProducto.classList.add("card-img-top")
-        imagenProducto.src = producto.image
-        const cuerpoProducto = document.createElement("div")
-        cuerpoProducto.classList.add('cord-body')
-        const tituloProducto = document.createElement('h3')
-        tituloProducto.classList.add('card-title')
-        tituloProducto.textContent = producto.title
-        const precioProducto = document.createElement("h5")
-        precioProducto.classList.add('card-text')
-        precioProducto.textContent = `$${producto.price}`
-        const botonEliminar = document.createElement('button')
-        botonEliminar.classList.add('btn')
-        botonEliminar.classList.add('btn-danger')
-        botonEliminar.classList.add("btnEliminarProducto")
-        botonEliminar.textContent = 'X'
-        contenedorProducto.appendChild(imagenProducto)
-        contenedorProducto.appendChild(tituloProducto)
-        contenedorProducto.appendChild(precioProducto)
-        contenedorProducto.appendChild(botonEliminar)
-        listaCarrito.appendChild(contenedorProducto)
+        const divProducto = document.createElement('div');
+        divProducto.classList.add('col-12');
 
-        precioAcumulado += producto.price
+        // Estructura del producto
+        divProducto.innerHTML = `
+            <div class="card" id>
+            <div class="card-body">
+                <img src="${producto.image}" class="card-img-top" alt="${producto.title}">
+                <h5 class="card-title">${producto.title}</h5>
+                <p class="card-text">$${producto.price}</p>
+                <a href="#" class="btn btn-danger btn-sm" id="btnEliminarProductoCarrito">Eliminar</a>
+            </div>
+            </div>
+        `
+      listaCarrito.appendChild(divProducto)
+      precioAcumulado += producto.price
+      divProducto.querySelector('#btnEliminarProductoCarrito').addEventListener('click', (event) => {
+        event.preventDefault();
+        eliminarProductoCarrito(producto.id)})
 
-        botonEliminar.addEventListener("click", ()=> {
-            eliminarProductoCarrito(producto.id)
-        })
+
     })
-    precioTotal.textContent = `$${precioAcumulado}`
+
+    if (precioAcumulado == 0) {
+        precioTotal.textContent = "No hay productos en el carrito"
+    }
+    else{
+        precioTotal.textContent = `$${precioAcumulado}`
+    }
+
+    contenedorPrecioTotal.appendChild(precioTotal)
+    listaCarrito.appendChild(contenedorPrecioTotal)
 }
 
 const eliminarProductoCarrito = (id) => {
